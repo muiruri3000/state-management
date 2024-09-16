@@ -13,6 +13,11 @@
   }
 }
 
+.btn{
+  padding:30px;
+  margin-left: 5px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

@@ -6,35 +6,29 @@ import { useState } from 'react';
 
 
 function Gallery() {
-  const [to, setTo] = useState('Alice');
-  const [message, setMessage] = useState('hello');
+  const [state, setState] = useState(0);
 
-  function handleSubmit(e){
-    e.preventDefault(); 
-    setTimeout(()=>{
 
-      alert(`You said ${message} to ${to}`);
-    },3000)
+  function Increment(){
+    setState((s)=>s + 1);
   }
   
   
   return (
-
- <form onSubmit={handleSubmit}>
-
-  <label>
-    To: {''}
-  </label>
-  <select
-    value={to}
-    onChange= {e => setTo(e.target.value)}>
-    <option value="Alice">Alice</option>
-    <option value="Bob">Bob</option>
-  </select>
-
-  <textarea placeholder='Message' value={message} onChange={e =>setMessage(e.target.value)}></textarea>
-  <button type='submit' className='btn'>Submit</button>
- </form>
+    <>
+    
+    <p>{state}</p>
+    <button onClick={Increment} className='btn'> + 1</button>
+    <button onClick={()=>{
+      
+      Increment()
+      Increment()
+      Increment()
+    
+    }} 
+    
+    className='btn'> + 3</button>
+    </>
   );
 }
 

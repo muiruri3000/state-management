@@ -1,52 +1,40 @@
 // import logo from './logo.svg';
-import { sculptureList } from './data';
+
 import './App.css';
 import { useState } from 'react';
 
+
+
 function Gallery() {
-  
-  const [index, setIndex] = useState(0);;
-  const [showNore, setShowMore] = useState(false);;
-  const hasNext = index < sculptureList.length - 1;
+  const [to, setTo] = useState('Alice');
+  const [message, setMessage] = useState('hello');
 
-  function handleNextClick(){
-    if(hasNext){
-      setIndex(index + 1) 
+  function handleSubmit(e){
+    e.preventDefault(); 
+    setTimeout(()=>{
 
-    }else{
-      setIndex(0); 
-    }
+      alert(`You said ${message} to ${to}`);
+    },3000)
   }
   
-  function handleMoreClick(){
-    setShowMore(!showNore);
-  }
-
-  let sculpture = sculptureList[index]; 
+  
   return (
 
- <>
+ <form onSubmit={handleSubmit}>
 
- <button onClick={handleNextClick}>Next</button>
+  <label>
+    To: {''}
+  </label>
+  <select
+    value={to}
+    onChange= {e => setTo(e.target.value)}>
+    <option value="Alice">Alice</option>
+    <option value="Bob">Bob</option>
+  </select>
 
-  <h2>{sculpture.name}</h2>
-  <h2>{sculpture.artist}</h2>
-
-    <h3>({index + 1} of {sculptureList.length})</h3>
- 
- 
- <button onClick={handleMoreClick}>
-  {showNore ? 'hide' : 'Show'} details
- </button>
- {showNore && <p>{sculpture.description}</p>}
-
-
-<img 
-
-src={sculpture.url}
-alt={sculpture.alt}
-/>
- </>
+  <textarea placeholder='Message' value={message} onChange={e =>setMessage(e.target.value)}></textarea>
+  <button type='submit' className='btn'>Submit</button>
+ </form>
   );
 }
 

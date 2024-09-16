@@ -1,38 +1,55 @@
 // import logo from './logo.svg';
+import { sculptureList } from './data';
 import './App.css';
+import { useState } from 'react';
 
-function App() {
+function Gallery() {
+  
+  const [index, setIndex] = useState(0);;
+  const [showNore, setShowMore] = useState(false);;
+  const hasNext = index < sculptureList.length - 1;
+
+  function handleNextClick(){
+    if(hasNext){
+      setIndex(index + 1) 
+
+    }else{
+      setIndex(0); 
+    }
+  }
+  
+  function handleMoreClick(){
+    setShowMore(!showNore);
+  }
+
+  let sculpture = sculptureList[index]; 
   return (
 
-     <Toolbar
-     
-     onPlayMovie = {()=>alert('Play Movie')}
-     onUploadImage = {()=>alert('Upload Image')}
-     />
+ <>
+
+ <button onClick={handleNextClick}>Next</button>
+
+  <h2>{sculpture.name}</h2>
+  <h2>{sculpture.artist}</h2>
+
+    <h3>({index + 1} of {sculptureList.length})</h3>
  
+ 
+ <button onClick={handleMoreClick}>
+  {showNore ? 'hide' : 'Show'} details
+ </button>
+ {showNore && <p>{sculpture.description}</p>}
+
+
+<img 
+
+src={sculpture.url}
+alt={sculpture.alt}
+/>
+ </>
   );
 }
 
 
-function Toolbar({onPlayMovie,onUploadImage}){
-  return (
-    <div>
-      <Button onClick={onPlayMovie}>
-        Play Movie
-        </Button>
-      <Button onClick={onUploadImage}>
-        Upload Image
-        </Button>
-    </div>
-  )
 
-  function Button({onClick,children}){
-    return (
-      <button className='btn' onClick={onClick}>
-        {children}
-      </button>
-    )
-  }
-}
-
-export default App;
+export default Gallery;

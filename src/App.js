@@ -5,90 +5,54 @@ import { useState } from 'react';
 import {useImmer} from 'use-immer';
 
 
-function Form() {
-  const [person, setPerson] = useImmer({
-    name: 'Niki de Saint Phalle',
-    artwork: {
-      title: 'Blue Nana',
-      city: 'Hamburg',
-      image: 'https://i.imgur.com/Sd1AgUOm.jpg',
-    }
-  });
+const initialList = [
+  { id: 0, title: 'Big Bellies', seen: false },
+  { id: 1, title: 'Lunar Landscape', seen: true },
+  { id: 2, title: 'Terracotta Army', seen: true },
+]
 
+function BucketList() { //main component. 
 
-function editNameChange(e){
-setPerson(draft=>{
-  draft.name = e.target.value;
-})
+  const [list, updateList] = useImmer(initialList); //initialization of state
+
+  function handleToggle(artworkId,nextSeen){ //function to access and modify draft copy of state
+    updateList(draft => {
+      const artwork = draft.find(a => a.id === artworkId);
+
+      artwork.seen = nextSeen; 
+    });
+  }
+return(
+<>
+
+<h1>Art Bucket List</h1>
+<h2>My list of art to see</h2>
+<ItemList
+artworks ={list}
+onToggle = {handleToggle}
+/>
+</>
+
+);
 }
 
-  function editCityChange(e){
-setPerson(draft =>{
-  draft.artwork.city = e.target.value;
-})
-  }
-
-  function editImageChange(e){
-      setPerson(draft=>{
-        draft.artwork.image = e.target.value
-      })
-  }
-  function editTitleChange(e){
-    setPerson(draft=>{
-      draft.artwork.title = e.target.value
-    })
-  }
-
-  
-  
+function ItemList({artworks,onToggle}){
   return (
-    <>
-    <label>
-      Title:
-    </label>
-    <input 
-    value={person.artwork.title}
-    onChange={editTitleChange}
-    
-    /><br />
-    <label>
-      Name:
-    </label>
-    <input 
-    value={person.name}
-    onChange={editNameChange}
-    
-    /><br />
-    <label>
-      City:
-    </label>
-    <input 
-    value={person.artwork.city}
-    onChange={editCityChange}
-    
-    /><br />
-    <label>
-     Image:
-    </label>
-    <input 
-    value={person.artwork.image}
-    onChange={editImageChange}
-    
-    />
-  <p>{person.artwork.title} { 'by '}
-    {person.name}</p>
-  
-    <p>{person.artwork.city}</p>
-    <img 
-    
-    src={person.artwork.image}
-    
-    />
-    
-    </>
+
+    <ul>
+      {artworks.map(artwork =>(
+        <li key={artwork.id}>
+          <label>
+            <input type='checkbox' checked={artwork.seen} onChange={e=>{onToggle(artwork.id,e.target.checked); }} />
+
+            {artwork.title}
+          </label>
+        </li>
+      ))}
+    </ul>
   );
 }
 
 
 
-export default Form;
+export default BucketList;

@@ -72,3 +72,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # Using hook state which is a special function which provides variables for functional components
 # Using state managent with forms. 
+# updating a copy of the state rather than directly updating directly. 
